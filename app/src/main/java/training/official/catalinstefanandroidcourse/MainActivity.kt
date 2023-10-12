@@ -32,30 +32,32 @@ class MainActivity : AppCompatActivity() {
     private fun setupObservers() {
         mainBinding.loadingProgressbar.visibility = View.VISIBLE
         viewModel.apply {
-            isLoading.value = true
             countries.observe(this@MainActivity) { countries ->
                 countries?.let {
                     mainBinding.countriesListRView.adapter = CountriesAdapter(it)
-                    isLoading.value = false
+                    mainBinding.loadingProgressbar.visibility = View.GONE
                 }
             }
+
             countriesLoadError.observe(this@MainActivity, Observer { loadingError ->
                 if (loadingError) mainBinding.listError.visibility = View.VISIBLE else View.GONE
             })
+
             isLoading.observe(this@MainActivity) { isLoading ->
                 isLoading?.let {
-                    if (isLoading) {
-                        mainBinding.apply {
-                            countriesListRView.visibility = View.GONE
-                            listError.visibility = View.GONE
+                    mainBinding.apply {
+                        if (isLoading) {
+                            mainBinding.apply {
+                                countriesListRView.visibility = View.GONE
+                                listError.visibility = View.GONE
+                            }
+                        } else {
+                            listError.visibility = View.VISIBLE
+                            countriesListRView.visibility = View.VISIBLE
+                            loadingProgressbar.visibility = View.GONE
                         }
-                    } else {
-                        mainBinding.countriesListRView.visibility = View.VISIBLE
-                        mainBinding.loadingProgressbar.visibility = View.GONE
                     }
                 }
-
-
             }
         }
 

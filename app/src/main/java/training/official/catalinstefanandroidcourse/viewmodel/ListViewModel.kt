@@ -2,48 +2,48 @@ package training.official.catalinstefanandroidcourse.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
+import training.official.catalinstefanandroidcourse.model.CountriesService
 import training.official.catalinstefanandroidcourse.model.Country
 
-class ListViewModel : ViewModel() {
+class ListViewModel() : ViewModel() {      // expected repository approach in next commit
 
-    val countries = MutableLiveData<ArrayList<Country>>()
+    val countriesService = CountriesService()
+    val disposable = CompositeDisposable()
+
+    val countries = MutableLiveData<List<Country>?>()
     val countriesLoadError = MutableLiveData<Boolean>()
     val isLoading = MutableLiveData<Boolean>()
 
     init {
-       fetchCountries()
+        fetchCountries()
     }
 
-    /**
-     *  This method-call uses CoroutineScope tied to this ViewModel. This scope will be canceled when ViewModel will be cleared,
-     *  i.e ViewModel.onCleared is called
-     * This scope is bound to Dispatchers.Main.immediate
-     *   androidx.lifecycle   ViewModelKt.class
-     *
-     *   Here 'Dispatchers' utilization is not necessary as it is filling up the list from static-data, however
-     *   it is really a good practice to use, as most fetchData() like calls
-     */
-    private fun fetchCountries(){
-        viewModelScope.launch(Dispatchers.IO) {
-            val mockData = arrayListOf (
-                Country("C -1 "),
-                Country("C - 10 "),
-                Country("C - 20 "),
-                Country("C - 30"),
-                Country("C - 40"),
-                Country("C - 50")
-            )
-            withContext(Dispatchers.Main){
-                countries.value = mockData
-                countriesLoadError.value = false
-                isLoading.value = false
-            }
-        }
+    private fun fetchCountries() {
+        isLoading.value = true                                                         // loading started
+        disposable.add(
+            countriesService.getCountries()
+                .subscribeOn(Schedulers.newThread())                                   // newThread is backEnd-Thread
+                .observeOn(AndroidSchedulers.mainThread())                             // back to Main-Thread
+                .subscribeWith(object : DisposableSingleObserver<List<Country>?>() {
+                    override fun onSuccess(values: List<Country>) {
+                        countries.value = values
+                        isLoading.value = false
+                        countriesLoadError.value = false
+                    }
+                    override fun onError(e: Throwable) {
+                        countriesLoadError.value = true
+                        isLoading.value = false
+                    }
+                })
+        )
+    }
 
-        }
-
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
+    }
 }

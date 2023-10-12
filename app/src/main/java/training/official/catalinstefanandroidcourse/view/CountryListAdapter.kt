@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import training.official.catalinstefanandroidcourse.databinding.CountryListItemBinding
 import training.official.catalinstefanandroidcourse.model.Country
 
-class CountriesAdapter(private var countries : ArrayList<Country>)
+class CountriesAdapter(private var countries : List<Country>)
     : RecyclerView.Adapter<CountriesAdapter.CountriesListViewHolder>() {
 
     /** not being used */

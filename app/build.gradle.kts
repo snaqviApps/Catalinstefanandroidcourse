@@ -49,7 +49,7 @@ dependencies {
     val coroutineVersion = "1.7.3"
     val roomVersion = "2.5.2"
 
-    val retrofitVersion = "2.3.0"
+    val retrofitVersion = "2.9.0"
 //    val supportVersion = "28.0.0"
     val daggerVersion = "2.28.3"
     val glideVersion ="4.8.0"
@@ -62,6 +62,16 @@ dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$roomVersion")
+
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+
+    // RxJava
+    implementation("io.reactivex.rxjava2:rxjava:2.2.7")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
+
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-ktx:1.12.0")
