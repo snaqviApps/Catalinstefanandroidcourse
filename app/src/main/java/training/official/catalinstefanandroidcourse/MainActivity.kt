@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ListViewModel::class.java]
         mainBinding.lifecycleOwner = this
         initCountriesRView()
+
         setupObservers()
 
     }

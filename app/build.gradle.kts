@@ -52,9 +52,9 @@ dependencies {
     val retrofitVersion = "2.9.0"
 //    val supportVersion = "28.0.0"
     val daggerVersion = "2.28.3"
-    val glideVersion ="4.8.0"
+    val glideVersion ="4.16.0"
     val mockitoVersion = "2.11.0"
-    val rxJavaVersion ="2.0.1"
+    val rxJavaVersion ="2.2.7"
 
     //Room
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -67,16 +67,18 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
+    //Glide for image-handling from backEnd
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
+
     // RxJava
-    implementation("io.reactivex.rxjava2:rxjava:2.2.7")
+    implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
-
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Annotation processor
