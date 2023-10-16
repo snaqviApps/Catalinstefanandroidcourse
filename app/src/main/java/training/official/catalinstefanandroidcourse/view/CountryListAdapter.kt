@@ -5,16 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import training.official.catalinstefanandroidcourse.databinding.CountryListItemBinding
 import training.official.catalinstefanandroidcourse.model.Country
+import training.official.catalinstefanandroidcourse.util.getProgressDrawable
+import training.official.catalinstefanandroidcourse.util.loadImage
 
-class CountriesAdapter(private var countries : ArrayList<Country>)
+class CountriesAdapter(private var countries : List<Country>)
     : RecyclerView.Adapter<CountriesAdapter.CountriesListViewHolder>() {
 
-    /** not being used */
-//    fun updateCountries(newCountries : List<Country>) {
-//        countries.clear()
-//        countries.addAll(newCountries)
-//        notifyDataSetChanged()              // not recommended
-//    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountriesListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItemBinding = CountryListItemBinding.inflate(layoutInflater)
@@ -30,9 +26,15 @@ class CountriesAdapter(private var countries : ArrayList<Country>)
 
 
     class CountriesListViewHolder(private val countryItem: CountryListItemBinding) : RecyclerView.ViewHolder(countryItem.root) {
+
+        private val progressDrawable = getProgressDrawable(countryItem.root.context)
         fun bind(country: Country){
-            countryItem.itemName.text = country.countryName
+            countryItem.itemCountry.text = country.countryName
+            countryItem.itemCapital.text = country.capital
+            countryItem.itemImage.loadImage(country.flag, progressDrawable)            // created loadImage as an 'extension-function' to ImageView)
         }
     }
 
 }
+
+

@@ -7,10 +7,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import training.official.catalinstefanandroidcourse.databinding.ActivityMainBinding
+import training.official.catalinstefanandroidcourse.model.CountriesRepository
 import training.official.catalinstefanandroidcourse.view.CountriesAdapter
 import training.official.catalinstefanandroidcourse.viewmodel.ListViewModel
+import training.official.catalinstefanandroidcourse.viewmodel.ListViewModelFactory
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var listRepo: CountriesRepository
     private lateinit var viewModel: ListViewModel
     private lateinit var mainBinding: ActivityMainBinding
 
@@ -18,47 +21,55 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-        viewModel = ViewModelProvider(this)[ListViewModel::class.java]
+        listRepo = CountriesRepository()
+        val viwModelFactory = ListViewModelFactory(repository = listRepo)
+        viewModel = ViewModelProvider(this, viwModelFactory)[ListViewModel::class.java]
         mainBinding.lifecycleOwner = this
+        refresh()
         initCountriesRView()
         setupObservers()
-
     }
 
     private fun initCountriesRView() {
         mainBinding.countriesListRView.layoutManager = LinearLayoutManager(this)
     }
+    private fun refresh() {
+        mainBinding.apply {
+            swipeLayoutId.setOnRefreshListener {
+                swipeLayoutId.isRefreshing = false
+                listRepo.fetchCountries()
+            }
+        }
+    }
 
     private fun setupObservers() {
-        mainBinding.loadingProgressbar.visibility = View.VISIBLE
         viewModel.apply {
-            isLoading.value = true
             countries.observe(this@MainActivity) { countries ->
                 countries?.let {
                     mainBinding.countriesListRView.adapter = CountriesAdapter(it)
-                    isLoading.value = false
+                    mainBinding.loadingProgressbar.visibility = View.GONE
                 }
             }
-            countriesLoadError.observe(this@MainActivity, Observer { loadingError ->
-                if (loadingError) mainBinding.listError.visibility = View.VISIBLE else View.GONE
+
+            countriesLoadError.observe(this@MainActivity, Observer { isError ->
+                isError?.let { mainBinding.tvLoadingError.visibility = if(it) View.VISIBLE else View.GONE }
             })
-            isLoading.observe(this@MainActivity) { isLoading ->
+
+            loadingCheck.observe(this@MainActivity) { isLoading ->
                 isLoading?.let {
-                    if (isLoading) {
-                        mainBinding.apply {
-                            countriesListRView.visibility = View.GONE
-                            listError.visibility = View.GONE
+                    mainBinding.apply {
+                        if (isLoading) {
+                                loadingProgressbar.visibility = View.VISIBLE
+                                tvLoadingError.visibility = View.GONE
+                        } else {
+                            loadingProgressbar.visibility = View.GONE
+                            tvLoadingError.visibility = View.VISIBLE
+                            countriesListRView.visibility = View.VISIBLE
                         }
-                    } else {
-                        mainBinding.countriesListRView.visibility = View.VISIBLE
-                        mainBinding.loadingProgressbar.visibility = View.GONE
                     }
                 }
-
-
             }
         }
-
     }
 
 }
