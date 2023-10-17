@@ -9,3 +9,9 @@ it adds
  branch: add_dagger2
   initial dagger using 'ksp' and not 'kapt'. 'CountriesApi' is being injected by dagger2 (creating and injecting) instead of manually
   It helps in separating the creation and using a 'variable', here: CountriesApi
+
+  branch: add_dagger2
+      in class: CountriesRepository, line# 12, countriesService initialization was replaced with dagger-injection approach as it
+      old-approach had dependencies upon Retrofit, Rxjava, not good for SRP, and Unit testing
+
+
