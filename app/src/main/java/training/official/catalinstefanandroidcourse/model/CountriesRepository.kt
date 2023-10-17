@@ -8,10 +8,8 @@ import io.reactivex.schedulers.Schedulers
 
 class CountriesRepository {
 
-    // next commit implementation
     private val countriesService = CountriesService()
     val disposable = CompositeDisposable()
-
     val countries = MutableLiveData<List<Country>?>()
     val countriesLoadError = MutableLiveData<Boolean>()
     val loadingCheck = MutableLiveData<Boolean>()
@@ -22,7 +20,8 @@ class CountriesRepository {
     }
 
     fun fetchCountries() {
-        loadingCheck.value = true                                                      // loading started
+        loadingCheck.value =
+            true                                                      // loading started
         disposable.add(
             countriesService.getCountries()
                 .subscribeOn(Schedulers.newThread())                                   // newThread is backEnd-Thread
@@ -33,6 +32,7 @@ class CountriesRepository {
                         loadingCheck.value = false
                         countriesLoadError.value = false
                     }
+
                     override fun onError(e: Throwable) {
                         countriesLoadError.value = true
                         loadingCheck.value = false

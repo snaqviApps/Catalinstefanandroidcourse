@@ -11,11 +11,11 @@ class CountriesService {
 
     init {
         /**
-         * created by Dagger: name of interface; preceded by Dagger
-         *
-         * note here: we do not need to create the "api" (as lateinit, it will be defined later, line# 10)
+         * DaggerApiComponent class
+         * created by Dagger: (name of interface; preceded by Dagger)
+         * note here: we do not need to create the "api" now (so lateinit, line# 10)
          * and 'Dagger' will create and inject it
-         * this is separation b/w creating a variable and using it
+         *  this is separation b/w creating a variable and using it
          */
         DaggerApiComponent.create().inject(this)
     }
