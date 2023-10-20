@@ -15,3 +15,7 @@ it adds
       old-approach had dependencies upon Retrofit, Rxjava, not good for SRP, and Unit testing
 
 
+ branch:
+
+ error on line# 112:
+ java.lang.NullPointerException: Cannot invoke "android.os.Looper.getThread()" because the return value of "android.os.Looper.getMainLooper()" is null
