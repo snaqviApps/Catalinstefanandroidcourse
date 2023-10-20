@@ -123,6 +123,7 @@ class ListViewModelTest {
 
         testSingle = Single.just(countriesList)
 
+        repository.countriesLoadError.value = false
         repository.fetchCountries()
 
         `when`(countriesService.getCountries()).thenReturn(testSingle)
