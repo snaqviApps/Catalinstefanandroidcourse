@@ -5,19 +5,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import training.official.catalinstefanandroidcourse.di.DaggerApiComponent
+import javax.inject.Inject
 
 class CountriesRepository {
 
-    // next commit implementation
-    private val countriesService = CountriesService()
-    val disposable = CompositeDisposable()
+    @Inject
+    lateinit var countriesService : CountriesService
+    //    private val countriesService = CountriesService()       // Old creation-approach has dependencies upon Retrofit, Rxjava, not good for SRP, and Unit testing
 
+    val disposable = CompositeDisposable()
     val countries = MutableLiveData<List<Country>?>()
     val countriesLoadError = MutableLiveData<Boolean>()
     val loadingCheck = MutableLiveData<Boolean>()
 
-
     init {
+        DaggerApiComponent.create().inject(this)
         fetchCountries()
     }
 
@@ -33,6 +36,7 @@ class CountriesRepository {
                         loadingCheck.value = false
                         countriesLoadError.value = false
                     }
+
                     override fun onError(e: Throwable) {
                         countriesLoadError.value = true
                         loadingCheck.value = false

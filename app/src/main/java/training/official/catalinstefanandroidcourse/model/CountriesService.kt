@@ -1,29 +1,26 @@
 package training.official.catalinstefanandroidcourse.model
 
 import io.reactivex.Single
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import training.official.catalinstefanandroidcourse.di.DaggerApiComponent
+import javax.inject.Inject
 
 class CountriesService {
 
-    private val BASE_URL = "https://raw.githubusercontent.com"
-    private val api : CountriesApi
+    @Inject
+    lateinit var api : CountriesApi
 
     init {
-        api = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-
-            /** below adapter transform 'country-data-class' into an Observable-variable similar
-              * to what we have in ViewModel-class
-              **/
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(CountriesApi::class.java)       // returns this type of info that would be returned "Single (observable) list of type-Country"
+        /**
+         * DaggerApiComponent class
+         * created by Dagger: (name of interface; preceded by Dagger)
+         * note here: we do not need to create the "api" now (so lateinit, line# 10)
+         * and 'Dagger' will create and inject it
+         *  this is separation b/w creating a variable and using it
+         */
+        DaggerApiComponent.create().inject(this)
     }
 
     fun getCountries() : Single<List<Country>> {
-        return api.getCountries()      // (from api-Interface : CountriesApi)
+        return api.getCountries()
     }
 }

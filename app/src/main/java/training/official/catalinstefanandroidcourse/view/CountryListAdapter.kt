@@ -31,7 +31,7 @@ class CountriesAdapter(private var countries : List<Country>)
         fun bind(country: Country){
             countryItem.itemCountry.text = country.countryName
             countryItem.itemCapital.text = country.capital
-            countryItem.itemImage.loadImage(country.flag, progressDrawable)            // created loadImage as an 'extension-function' to ImageView)
+            countryItem.itemImage.loadImage(country.flagUrl, progressDrawable)            // created loadImage as an 'extension-function' to ImageView)
         }
     }
 

@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-//    id("kotlin-kapt")      ---> replaced with below plugin: KSP
+    id("kotlin-kapt")      // ---> replaced with below plugin: KSP
     id("com.google.devtools.ksp")
 }
 
@@ -39,6 +39,12 @@ android {
     dataBinding {
         enable = true
     }
+
+    testOptions {
+        // Used for Unit testing Android dependent elements in /test folder
+        unitTests.isIncludeAndroidResources  = true
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -48,10 +54,8 @@ dependencies {
     val fragmentVersion = "1.6.1"
     val coroutineVersion = "1.7.3"
     val roomVersion = "2.5.2"
-
     val retrofitVersion = "2.9.0"
-//    val supportVersion = "28.0.0"
-    val daggerVersion = "2.28.3"
+    val daggerVersion = "2.48.1"
     val glideVersion ="4.16.0"
     val mockitoVersion = "2.11.0"
     val rxJavaVersion ="2.2.7"
@@ -74,6 +78,10 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
+
+    //dagger
+    implementation("com.google.dagger:dagger:$daggerVersion")
+    ksp("com.google.dagger:dagger-compiler:$daggerVersion")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-ktx:1.12.0")
@@ -101,6 +109,9 @@ dependencies {
 
     // test
     testImplementation("junit:junit:4.13.2")
+//    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
