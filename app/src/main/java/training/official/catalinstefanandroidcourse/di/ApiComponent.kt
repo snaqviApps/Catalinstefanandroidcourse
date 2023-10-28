@@ -2,7 +2,7 @@ package training.official.catalinstefanandroidcourse.di
 
 import dagger.Component
 import training.official.catalinstefanandroidcourse.model.CountriesRepository
-import training.official.catalinstefanandroidcourse.model.CountriesService
+import training.official.catalinstefanandroidcourse.api.CountriesService
 
 @Component(modules = [ApiModule::class])
 interface ApiComponent {

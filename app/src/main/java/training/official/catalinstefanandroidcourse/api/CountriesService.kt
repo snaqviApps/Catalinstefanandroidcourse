@@ -1,7 +1,8 @@
-package training.official.catalinstefanandroidcourse.model
+package training.official.catalinstefanandroidcourse.api
 
 import io.reactivex.Single
 import training.official.catalinstefanandroidcourse.di.DaggerApiComponent
+import training.official.catalinstefanandroidcourse.model.Country
 import javax.inject.Inject
 
 class CountriesService {

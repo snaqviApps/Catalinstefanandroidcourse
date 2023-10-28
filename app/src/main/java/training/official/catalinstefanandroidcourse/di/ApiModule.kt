@@ -5,8 +5,8 @@ import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import training.official.catalinstefanandroidcourse.model.CountriesApi
-import training.official.catalinstefanandroidcourse.model.CountriesService
+import training.official.catalinstefanandroidcourse.api.CountriesApi
+import training.official.catalinstefanandroidcourse.api.CountriesService
 
 /**
  * exposes the Api (for Countries-GET call) by 'creating' it

@@ -7,7 +7,6 @@ import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.disposables.Disposable
 import io.reactivex.internal.schedulers.ExecutorScheduler
 import io.reactivex.plugins.RxJavaPlugins
-import junit.framework.TestCase.assertEquals
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -18,9 +17,8 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
 import training.official.catalinstefanandroidcourse.model.CountriesRepository
-import training.official.catalinstefanandroidcourse.model.CountriesService
+import training.official.catalinstefanandroidcourse.api.CountriesService
 import training.official.catalinstefanandroidcourse.model.Country
 import java.util.concurrent.Callable
 import java.util.concurrent.Executor
